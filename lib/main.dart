@@ -19,9 +19,16 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   //변함없음
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  List<String> memoList = ['장보기 목록: 사과, 양파'];
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +36,9 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Text("mymemo_alone"), //상단 중앙 글씨
       ),
-      body: Center(
-        //바디 중앙에 단일
-        child: Text("메모를 작성해주세요"),
-      ),
+      body: memoList.isEmpty
+          ? Center(child: Text("메모를 작성해 주소서"))
+          : Center(child: Text("메모있음요")),
       floatingActionButton: FloatingActionButton(
           //오른쪽 하단에 버튼
           child: Icon(Icons.add),
