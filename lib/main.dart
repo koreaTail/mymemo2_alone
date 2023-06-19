@@ -28,7 +28,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<String> memoList = ['장보기 목록: 사과, 양파'];
+  List<String> memoList = [
+    '장보기 목록: 사과, 양파sdfsdfsdfsdfsdfsdfsdfsdfsdfsdfsdfawsefawefasefwsesdfsdfsdfsdfsdfsdfawsefawefasefwsesdfsdfsdfsdfsdfsdfawsefawefasefwsesdfsdfsdfsdfsdfsdfawsefawefasefwseasefasefaewsf',
+    '유튜브 찍기'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -38,16 +41,38 @@ class _HomePageState extends State<HomePage> {
       ),
       body: memoList.isEmpty
           ? Center(child: Text("메모를 작성해 주소서"))
-          : Center(child: Text("메모있음요")),
+          : ListView.builder(
+              itemCount: memoList.length,
+              itemBuilder: (context, index) {
+                String memo = memoList[index];
+                return ListTile(
+                  leading: IconButton(
+                    icon: Icon(CupertinoIcons.pin),
+                    onPressed: () {
+                      print('$memo : pin 클릭 됨');
+                    },
+                  ),
+                  title: Text(
+                    memo,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis, // ...을 통해 생략된 부분 표시
+                  ),
+                  onTap: () {
+                    print('$memo : 클릭 됨');
+                  },
+                );
+              },
+            ),
       floatingActionButton: FloatingActionButton(
-          //오른쪽 하단에 버튼
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => DetailPage()), //디테일페이지로 이동
-            );
-          }),
+        //오른쪽 하단에 버튼
+        child: Icon(Icons.add),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (_) => DetailPage()), //디테일페이지로 이동
+          );
+        },
+      ),
     );
   }
 }
