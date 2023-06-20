@@ -58,7 +58,10 @@ class _HomePageState extends State<HomePage> {
                     overflow: TextOverflow.ellipsis, // ...을 통해 생략된 부분 표시
                   ),
                   onTap: () {
-                    print('$memo : 클릭 됨');
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => DetailPage()),
+                    );
                   },
                 );
               },
