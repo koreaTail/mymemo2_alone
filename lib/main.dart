@@ -60,7 +60,12 @@ class _HomePageState extends State<HomePage> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (_) => DetailPage()),
+                      MaterialPageRoute(
+                        builder: (_) => DetailPage(
+                          index: index,
+                          memoList: memoList,
+                        ),
+                      ),
                     );
                   },
                 );
@@ -70,9 +75,18 @@ class _HomePageState extends State<HomePage> {
         //오른쪽 하단에 버튼
         child: Icon(Icons.add),
         onPressed: () {
+          String memo = '';
+          setState(() {
+            memoList.add(memo);
+          });
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (_) => DetailPage()), //디테일페이지로 이동
+            MaterialPageRoute(
+              builder: (_) => DetailPage(
+                index: memoList.indexOf(memo),
+                memoList: memoList,
+              ),
+            ), //디테일페이지로 이동
           );
         },
       ),
@@ -82,12 +96,17 @@ class _HomePageState extends State<HomePage> {
 
 class DetailPage extends StatelessWidget {
   //디테일페이지는 뒤로가기 기능이 기본제공됨
-  DetailPage({super.key});
+  DetailPage({super.key, required this.memoList, required this.index});
+
+  final List<String> memoList;
+  final int index;
 
   TextEditingController contentController = TextEditingController(); //아직 기능 모름
 
   @override
   Widget build(BuildContext context) {
+    contentController.text = memoList[index];
+
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -95,6 +114,34 @@ class DetailPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               //삭제 버튼 클릭 시 할 행동
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text("정말로 삭제하시겠습니까?"),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: Text("취소"),
+                      ),
+                      // 확인
+                      TextButton(
+                        onPressed: () {
+                          memoList.removeAt(index);
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          "확인",
+                          style: TextStyle(color: Colors.pink),
+                        ),
+                      )
+                    ],
+                  );
+                },
+              );
             },
             icon: Icon(Icons.delete), //쓰레기통
           )
@@ -112,7 +159,7 @@ class DetailPage extends StatelessWidget {
         expands: true, //부모을 따라 커짐. 가능한 한 가장 큰 범위에서 놀게 함, 꺼도 차이 없는 듯?
         keyboardType: TextInputType.multiline, // 뭔지 모르겠음. 있으나 없으나 같음
         onChanged: (value) {
-          // 텍스트필트 안의 값이 변할 때 저장하기!!!
+          memoList[index] = value;
         },
       ),
     );
