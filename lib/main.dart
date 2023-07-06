@@ -120,35 +120,7 @@ class DetailPage extends StatelessWidget {
           IconButton(
             onPressed: () {
               //삭제 버튼 클릭 시 할 행동
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    title: Text("정말로 삭제하시겠습니까?"),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        child: Text("취소"),
-                      ),
-                      // 확인
-                      TextButton(
-                        onPressed: () {
-                          // memoList.removeAt(index);
-                          memoService.deleteMemo(index: index);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          "확인",
-                          style: TextStyle(color: Colors.pink),
-                        ),
-                      )
-                    ],
-                  );
-                },
-              );
+              showDeleteDialog(context, memoService);
             },
             icon: Icon(Icons.delete), //쓰레기통
           )
@@ -170,6 +142,38 @@ class DetailPage extends StatelessWidget {
           memoService.updateMemo(index: index, content: value);
         },
       ),
+    );
+  }
+
+  void showDeleteDialog(BuildContext context, MemoService memoService) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text("정말로 삭제하시겠습니까?"),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("취소"),
+            ),
+            // 확인
+            TextButton(
+              onPressed: () {
+                // memoList.removeAt(index);
+                memoService.deleteMemo(index: index);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              },
+              child: Text(
+                "확인",
+                style: TextStyle(color: Colors.pink),
+              ),
+            )
+          ],
+        );
+      },
     );
   }
 }
