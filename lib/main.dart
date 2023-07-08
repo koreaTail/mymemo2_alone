@@ -58,12 +58,22 @@ class _HomePageState extends State<HomePage> {
                   itemCount: memoList.length,
                   itemBuilder: (context, index) {
                     Memo memo = memoList[index];
+                    bool isPinned = memo.isPinned;
+
                     return ListTile(
                       leading: IconButton(
-                        icon: Icon(CupertinoIcons.pin),
+                        icon: Icon(
+                          isPinned
+                              ? CupertinoIcons.pin_fill
+                              : CupertinoIcons.pin,
+                        ),
                         onPressed: () {
                           setState(() {
-                            memoService.pinMemo(index);
+                            if (isPinned) {
+                              memoService.unpinMemo(index);
+                            } else {
+                              memoService.pinMemo(index);
+                            }
                           });
                         },
                       ),

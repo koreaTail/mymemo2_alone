@@ -6,10 +6,9 @@ import 'main.dart';
 
 // 메모 데이터 형식 정해주기
 class Memo {
-  Memo({
-    required this.content,
-  });
+  Memo({required this.content, this.isPinned = false});
 
+  bool isPinned;
   String content;
 
   Map toJson() {
@@ -69,7 +68,16 @@ class MemoService extends ChangeNotifier {
 
   pinMemo(int index) {
     Memo memo = memoList.removeAt(index);
+    memo.isPinned = true;
     memoList.insert(0, memo);
+    notifyListeners();
+    saveMemoList();
+  }
+
+  unpinMemo(int index) {
+    Memo memo = memoList.removeAt(index);
+    memo.isPinned = false;
+    memoList.add(memo);
     notifyListeners();
     saveMemoList();
   }
