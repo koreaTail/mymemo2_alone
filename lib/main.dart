@@ -62,7 +62,9 @@ class _HomePageState extends State<HomePage> {
                       leading: IconButton(
                         icon: Icon(CupertinoIcons.pin),
                         onPressed: () {
-                          print('$memo : pin 클릭 됨');
+                          setState(() {
+                            memoService.pinMemo(index);
+                          });
                         },
                       ),
                       title: Text(

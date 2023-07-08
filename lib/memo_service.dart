@@ -66,4 +66,11 @@ class MemoService extends ChangeNotifier {
 
     memoList = memoJsonList.map((json) => Memo.fromJson(json)).toList();
   }
+
+  pinMemo(int index) {
+    Memo memo = memoList.removeAt(index);
+    memoList.insert(0, memo);
+    notifyListeners();
+    saveMemoList();
+  }
 }
