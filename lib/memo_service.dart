@@ -6,10 +6,12 @@ import 'main.dart';
 
 // 메모 데이터 형식 정해주기
 class Memo {
-  Memo({required this.content, this.isPinned = false});
+  Memo({required this.content, this.isPinned = false})
+      : modifiedTime = DateTime.now();
 
   bool isPinned;
   String content;
+  DateTime modifiedTime;
 
   Map toJson() {
     return {'content': content};
@@ -38,6 +40,7 @@ class MemoService extends ChangeNotifier {
   updateMemo({required int index, required String content}) {
     Memo memo = memoList[index];
     memo.content = content;
+    memo.modifiedTime = DateTime.now();
     notifyListeners();
     saveMemoList();
   }
@@ -50,9 +53,7 @@ class MemoService extends ChangeNotifier {
 
   saveMemoList() {
     List memoJsonList = memoList.map((memo) => memo.toJson()).toList();
-
     String jsonString = jsonEncode(memoJsonList);
-
     prefs.setString('memoList', jsonString);
   }
 

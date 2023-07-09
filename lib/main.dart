@@ -4,6 +4,8 @@ import 'package:mymemo2_alone/memo_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:intl/intl.dart';
+
 late SharedPreferences prefs;
 
 void main() async {
@@ -60,6 +62,9 @@ class _HomePageState extends State<HomePage> {
                     Memo memo = memoList[index];
                     bool isPinned = memo.isPinned;
 
+                    final formattedTime =
+                        DateFormat.yMd().add_jms().format(memo.modifiedTime);
+
                     return ListTile(
                       leading: IconButton(
                         icon: Icon(
@@ -81,6 +86,9 @@ class _HomePageState extends State<HomePage> {
                         memo.content,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis, // ...을 통해 생략된 부분 표시
+                      ),
+                      subtitle: Text(
+                        formattedTime, // Display the modified time
                       ),
                       onTap: () {
                         Navigator.push(
